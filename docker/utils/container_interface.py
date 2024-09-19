@@ -100,30 +100,38 @@ class ContainerInterface:
             " background...\n"
         )
 
-        # build the image for the base profile
-        subprocess.run(
-            [
-                "docker",
-                "compose",
-                "--file",
-                "docker-compose.yaml",
-                "--env-file",
-                ".env.base",
-                "build",
-                "isaac-lab-base",
-            ],
-            check=False,
-            cwd=self.context_dir,
-            env=self.environ,
-        )
-
+        # if self.does_image_exist():
+        #     print(f"[INFO] Docker image '{self.image_name}' already exists, skipping build...")
+        # else: 
+            # print(f"[INFO] Docker image '{self.image_name}' does not exist, building the image...")
+        
+        # if image not exits, build the image for the base profile
+        # subprocess.run(
+        #     [
+        #         "docker",
+        #         "compose",
+        #         "--file",
+        #         "docker-compose.yaml",
+        #         "--env-file",
+        #         ".env.base",
+        #         "build",
+        #         "isaac-lab-base",
+        #     ],
+        #     check=False,
+        #     cwd=self.context_dir,
+        #     env=self.environ,
+        # )
+    
         # build the image for the profile
         subprocess.run(
             ["docker", "compose"]
             + self.add_yamls
             + self.add_profiles
             + self.add_env_files
-            + ["up", "--detach", "--build", "--remove-orphans"],
+            + ["up", "--detach", 
+            #    "--build", 
+            #    "--remove-orphans"
+            ],
             check=False,
             cwd=self.context_dir,
             env=self.environ,
